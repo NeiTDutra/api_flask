@@ -24,6 +24,7 @@ def desenvolvedor(id):
         return jsonify(dados)
     elif request.method == 'DELETE':
         desenvolvedores.pop(id)
+        return {'status':'sucesso', 'mensagem':'Registro escluido'}
 
 
 @app.route('/dev/new', methods=['POST', 'GET'])

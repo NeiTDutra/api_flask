@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_restful import Resource, Api
+from skils import Skil
 import json
 
 app = Flask(__name__)
@@ -17,18 +18,32 @@ desenvolvedores = [
 class Desenvolvedor(Resource):
     def get(self, id):
         dev = desenvolvedores[id]
-        return jsonify(dev)
+        return dev
 
-    def put(self):
-        pass
+    def put(self, id):
+        dados = json.loads(request.data)
+        desenvolvedores[id] = dados
+        return dados
+
+    def delete(self, id):
+        desenvolvedores.pop(id)
+        return {'status':'sucesso', 'mensagem':'Registro escluido'}
+
+class ListaDesenvolvedores(Resource):
+    def get(self):
+        return desenvolvedores
 
     def post(self):
-        pass
+        dados = json.loads(request.data)
+        posicao = len(desenvolvedores)
+        dados[id] = posicao
+        desenvolvedores.append(dados)
+        return desenvolvedores[posicao]
 
-    def delete(self):
-        pass
 
 api.add_resource(Desenvolvedor, '/dev/<int:id>/')
+api.add_resource(ListaDesenvolvedores, '/dev/')
+api.add_resource(Skil, '/skil/')
 
 if __name__ == '__main__':
     app.run(debug=True)
